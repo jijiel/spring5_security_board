@@ -3,7 +3,11 @@ package edu.bit.ex;
 
 
 
+import java.security.Principal;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,5 +36,11 @@ public class SecurityController {
       
       log.info("admin only");
     }
+	
+	@GetMapping("/accessError")
+	public void accessError(Authentication auth,Principal principal,Model model) {
+		  log.info("accessd denied" + auth);
+		  model.addAttribute("msg","Access Denied");
+	}
 	
 }

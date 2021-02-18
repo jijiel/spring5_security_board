@@ -5,10 +5,12 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-   <http>
-      <intercept-url pattern="/security/all" access="permitAll" />
-      <intercept-url pattern="/security/member" access="hasRole('ROLE_MEMBER')" />   
-      <intercept-url pattern="/security/admin" access="hasRole('ROLE_ADMIN')" />   
+   <http auto-config="true" use-expressions="true">
+      <intercept-url pattern="/login/loginForm" access="permitAll" />
+      <intercept-url pattern="/" access="permitAll" />
+      <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+      <intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')" />  
+      
       <!--로그인 페이지 커스텀 화    -->
       <form-login login-page="/login/loginForm"
                   default-target-url="/"
@@ -22,13 +24,22 @@
 		<access-denied-handler error-page="/security/accessError"/>
    </http> 
    
+   <beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <beans:property name="dataSource" ref="dataSource"/>
+    </beans:bean> 
+   
+    <beans:bean id="customNoOpPasswordEncoder" class="edu.bit.ex.security.CustomNoOpPasswordEncoder"/>
+   
    <!-- provider --> 
 	<authentication-manager>
 		<authentication-provider> 
-			<user-service> 
-				<user name="member" password="{noop}member" authorities="ROLE_MEMBER" /> 
-				<user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN" />
-			</user-service> 
+		<password-encoder ref="customNoOpPasswordEncoder"/> 
+			 <jdbc-user-service 
+               data-source-ref="dataSource"
+               role-prefix=""
+               users-by-username-query="select username, password, enabled from users where username = ?"
+               authorities-by-username-query="select username, authority from authorities where username = ?"
+           /> 
 		</authentication-provider>
 	</authentication-manager>     
     
