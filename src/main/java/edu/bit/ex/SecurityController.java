@@ -1,8 +1,6 @@
 package edu.bit.ex;
 
 
-
-
 import java.security.Principal;
 
 import org.springframework.security.core.Authentication;

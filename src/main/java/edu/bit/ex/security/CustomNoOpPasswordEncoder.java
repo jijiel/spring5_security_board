@@ -21,5 +21,6 @@ public class CustomNoOpPasswordEncoder implements PasswordEncoder {
 
       return rawPassword.toString().equals(encodedPassword);
    }
+   
 
 }

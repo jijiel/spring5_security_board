@@ -7,9 +7,11 @@
     
    <http auto-config="true" use-expressions="true">
       <intercept-url pattern="/login/loginForm" access="permitAll" />
+      <intercept-url pattern="/user/**" access="permitAll" />
       <intercept-url pattern="/" access="permitAll" />
       <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
       <intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')" />  
+
       
       <!--로그인 페이지 커스텀 화    -->
       <form-login login-page="/login/loginForm"
@@ -29,17 +31,21 @@
     </beans:bean> 
    
     <beans:bean id="customNoOpPasswordEncoder" class="edu.bit.ex.security.CustomNoOpPasswordEncoder"/>
-   
+   	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+   	
    <!-- provider --> 
 	<authentication-manager>
 		<authentication-provider> 
-		<password-encoder ref="customNoOpPasswordEncoder"/> 
+		<password-encoder ref="bcryptPasswordEncoder"/> 
 			 <jdbc-user-service 
                data-source-ref="dataSource"
                role-prefix=""
-               users-by-username-query="select username, password, enabled from users where username = ?"
-               authorities-by-username-query="select username, authority from authorities where username = ?"
-           /> 
+                users-by-username-query="select username, password, enabled from users where username = ?"
+               authorities-by-username-query="select username, authority from authorities where username = ?" 
+               />
+              <!--  users-by-username-query="select ename, empno, 1 from emp where ename = ?"
+               authorities-by-username-query="select ename, case when jab = 'MANAGER' then 'ROLE_ADMIN' else 'ROLE_USER' end authorities where username = ?" -->
+        
 		</authentication-provider>
 	</authentication-manager>     
     

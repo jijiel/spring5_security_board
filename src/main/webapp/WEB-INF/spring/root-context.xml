@@ -44,6 +44,8 @@
     </bean>
     
     <tx:annotation-driven transaction-manager="transactionManager" />
+    
+    <mybatis-spring:scan base-package="edu.bit.ex.mapper" />
 
       
 </beans>
