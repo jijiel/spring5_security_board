@@ -1,6 +1,6 @@
 package edu.bit.ex.vo;
-
-import java.sql.Timestamp;
+ 
+import java.sql.Timestamp; 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
