@@ -16,6 +16,7 @@
       <c:url value="/login" var="loginUrl" />
       <div class="container col-md-4">
 	      <form:form name ="f" class="px-4 py-3" action="${loginUrl}" method="post">
+	      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	            <c:if test="${param.error != null}">
         			<p>아이디와 비밀번호가 잘못되었습니다.</p>
     			</c:if>
