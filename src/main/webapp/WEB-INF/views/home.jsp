@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-   <title>메이페이지</title>
+   <title>메인페이지</title>
 </head>
 
 <body>
