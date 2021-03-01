@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    
+<!DOCTYPE>  
 <html>
 <head>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>글보기</title>
 
 <script type="text/javascript">
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
    	$(document).ready(function(){
       $("#updateForm").submit(function(event){         
            event.preventDefault();     
@@ -34,7 +38,11 @@
              url : $(this).attr("action"),
              cache : false,
              contentType:'application/json; charset=utf-8', 
-             data: JSON.stringify(form), 
+             data: JSON.stringify(form),
+             beforeSend : function(xhr)
+	            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+	         },
              success: function (result) {       
                if(result == "SUCCESS"){
                       

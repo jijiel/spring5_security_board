@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
@@ -43,6 +45,10 @@
 				cache : false,
 				contentType : 'application/json; charset=UTF-8',
 				data: JSON.stringify(form), 
+				beforeSend : function(xhr)
+	            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+	            },
 				success: function (result) {       
 		               if(result == "SUCCESS"){
 		                  //list로 
